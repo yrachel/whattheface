@@ -7,7 +7,7 @@ import json
 import base64
 import request
 app = Flask(__name__)
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/ryuan/Desktop/credentials.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = './credentials.json'
 
 
 def detect_face(face_file, max_results=4):
@@ -45,14 +45,14 @@ def saveImage():
    Args:
 	dict of dicts
    Returns:
-	array of most intense emotions	
+	array of most intense emotions
 """
 def maxEmotions(dicts):
 	output = []
 	for face in dicts:
 		output.append(str(max(dicts[face].iteritems(), key=operator.itemgetter(1))[0]))
 	return output
-        
+
 """Returns a dictionary of faces, which are each dictionaries of emotions: intensity
     Args:
 	input file and max number of faces
@@ -62,7 +62,7 @@ def maxEmotions(dicts):
 def process(input, max_results):
     with open(input, 'rb') as image:
         faces = detect_face(image, max_results)
-        
+
 	i = 1
 	dictOfDicts = {}
 	for face in faces:
@@ -80,4 +80,6 @@ def process(input, max_results):
 def main(input, max_results):
    return maxEmotions(process(input, max_results))
 
-app.run(host='192.168.1.40')
+print main('happy rock.jpg', 4)
+
+app.run(host='192.168.1.38')
